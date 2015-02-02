@@ -1,0 +1,33 @@
+#!/bin/bash
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+RACKET_SNAPSHOT=http://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-precise.sh
+
+rm -rf $CACHE_DIR
+mkdir -p $CACHE_DIR
+
+echo "-----> Building Racket snapshot"
+
+cd $CACHE_DIR
+
+echo "-----> Downloading prebuilt snapshot"
+
+wget $RACKET_SNAPSHOT --progress=bar:force -O racket-installer.sh
+chmod +x racket-installer.sh
+
+echo "-----> Unpacking Racket installation"
+
+mkdir racket
+./racket-installer.sh --unix-style --dest racket
+
+PATH=$CACHE_DIR/racket/bin:$PATH
+
+cd $BUILD_DIR
+
+echo "-----> Installing application package"
+
+raco pkg install --no-setup --deps search-auto --link $BUILD_DIR
+raco setup -Dj 1
