@@ -6,12 +6,13 @@ ENV_DIR=$3
 
 RACKET_SNAPSHOT=http://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-precise.sh
 
-rm -rf $CACHE_DIR
-mkdir -p $CACHE_DIR
+RACKET_DIR=$BUILD_DIR/.heroku-racket-installation/
+
+mkdir -p $RACKET_DIR
 
 echo "-----> Building Racket snapshot"
 
-cd $CACHE_DIR
+cd $RACKET_DIR
 
 echo "-----> Downloading prebuilt snapshot"
 
@@ -23,9 +24,14 @@ echo "-----> Unpacking Racket installation"
 mkdir racket
 ./racket-installer.sh --unix-style --dest racket
 
-PATH=$CACHE_DIR/racket/bin:$PATH
+PATH=$RACKET_DIR/racket/bin:$PATH
 
 cd $BUILD_DIR
+
+echo "-----> Setting up .profile.d environment"
+
+mkdir .profile.d
+echo 'export PATH=$PATH:$HOME/.heroku-racket-installation/racket/bin' >> .profile.d/setup_environment.sh
 
 echo "-----> Installing application package"
 
