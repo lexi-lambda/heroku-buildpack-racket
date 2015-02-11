@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# use sensible globbing rules
-shopt -s dotglob nullglob
+# use better globbing rules
+shopt -s dotglob nullglob extglob
 
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -12,27 +12,24 @@ RACKET_SNAPSHOT=http://www.cs.utah.edu/plt/snapshots/current/installers/racket-c
 APP_DIR=$BUILD_DIR/app
 RACKET_DIR=$BUILD_DIR/racket
 
+cd $BUILD_DIR
+
 echo "-----> Moving application into ‘app’ directory"
 
 mkdir -p $APP_DIR
-mv $BUILD_DIR/* $APP_DIR/
+mv $BUILD_DIR/!(app) $APP_DIR/
 
 echo "-----> Building Racket snapshot"
+echo "     - Downloading prebuilt installer"
 
-cd $RACKET_DIR
-
-echo "     > Downloading prebuilt installer"
-
-wget $RACKET_SNAPSHOT --progress=bar:force -O racket-installer.sh
-chmod +x racket-installer.sh
+wget $RACKET_SNAPSHOT --progress=bar:force -O $CACHE_DIR/racket-installer.sh
+chmod +x $CACHE_DIR/racket-installer.sh
 
 echo "-----> Unpacking Racket installation"
 
-./racket-installer.sh --in-place --dest $RACKET_DIR
+$CACHE_DIR/racket-installer.sh --in-place --dest $RACKET_DIR
 
 PATH=$RACKET_DIR/bin:$PATH
-
-cd $BUILD_DIR
 
 echo "-----> Setting up .profile.d environment"
 
