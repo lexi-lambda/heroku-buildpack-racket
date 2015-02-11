@@ -42,4 +42,5 @@ raco setup -Dj 1
 
 echo "-----> Installing application package"
 
-raco pkg install -i --deps search-auto -n heroku-racket-app --copy $APP_DIR
+raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR
+raco setup -Dj 1
