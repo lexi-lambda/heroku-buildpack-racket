@@ -21,8 +21,7 @@ chmod +x racket-installer.sh
 
 echo "-----> Unpacking Racket installation"
 
-mkdir racket
-./racket-installer.sh --unix-style --dest racket
+./racket-installer.sh --in-place --dest racket
 
 PATH=$RACKET_DIR/racket/bin:$PATH
 
