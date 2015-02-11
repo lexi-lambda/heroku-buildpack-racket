@@ -35,7 +35,6 @@ echo "-----> Setting up .profile.d environment"
 
 mkdir .profile.d
 echo 'export PATH=$PATH:$HOME/racket/bin' >> .profile.d/setup_environment.sh
-echo 'export APP_DIR=$HOME/app' >> .profile.d/setup_environment.sh
 
 echo "-----> Installing application package"
 
