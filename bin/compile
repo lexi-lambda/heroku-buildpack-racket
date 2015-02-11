@@ -17,7 +17,7 @@ cd $BUILD_DIR
 echo "-----> Moving application into ‘app’ directory"
 
 mkdir -p $APP_DIR
-mv $BUILD_DIR/!(app) $APP_DIR/
+mv $BUILD_DIR/!(app|Procfile) $APP_DIR/
 
 echo "-----> Building Racket snapshot"
 echo "     - Downloading prebuilt installer"
