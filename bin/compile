@@ -36,10 +36,6 @@ echo "-----> Setting up .profile.d environment"
 mkdir .profile.d
 echo 'export PATH=$PATH:$HOME/racket/bin' >> .profile.d/setup_environment.sh
 
-echo "-----> Building base installation"
-
-raco setup -D
-
 echo "-----> Installing application package"
 
 raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR
