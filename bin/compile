@@ -39,5 +39,5 @@ echo 'export APP_DIR=$HOME/app' >> .profile.d/setup_environment.sh
 
 echo "-----> Installing application package"
 
-raco pkg install --no-setup --deps search-auto --name heroku-racket-app --link $APP_DIR
+raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR
 raco setup -Dj 1
