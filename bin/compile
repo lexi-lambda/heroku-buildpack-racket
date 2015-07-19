@@ -10,7 +10,7 @@ shopt -s dotglob nullglob extglob
 INDENTATION='       '
 indent() {
   should_indent=true
-  while IFS= read -r -n 1 -d '' c; do
+  while IFS= read -r -N 1 c; do
     if $should_indent; then
       echo -n "$INDENTATION"
       should_indent=false
