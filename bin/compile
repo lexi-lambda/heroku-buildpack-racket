@@ -58,4 +58,4 @@ echo 'export PATH=$PATH:$HOME/racket/bin' >> .profile.d/setup_environment.sh
 echo "-----> Installing application package"
 
 raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR |& indent
-raco setup -D |& indent
+raco setup -DK --fail-fast |& indent
