@@ -26,7 +26,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-RACKET_SNAPSHOT=http://www.cs.utah.edu/plt/snapshots/current/installers/min-racket-current-x86_64-linux-precise.sh
+RACKET_SNAPSHOT=http://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-precise.sh
 
 APP_DIR=$BUILD_DIR/app
 RACKET_DIR=$BUILD_DIR/racket
