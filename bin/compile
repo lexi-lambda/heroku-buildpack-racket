@@ -1,7 +1,26 @@
 #!/bin/bash
 
+# if any of the commands fail, die with a non-clean exit code
+set -e
+
 # use better globbing rules
 shopt -s dotglob nullglob extglob
+
+# indent everything by 7 spaces for alignment
+INDENTATION='       '
+indent() {
+  should_indent=true
+  while IFS= read -r -n 1 -d '' c; do
+    if $should_indent; then
+      echo -n "$INDENTATION"
+      should_indent=false
+    fi
+    echo -n "$c"
+    if [[ "$c" == $'\n' ]]; then
+      should_indent=true
+    fi
+  done
+}
 
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -22,12 +41,12 @@ mv $BUILD_DIR/!(app|Procfile) $APP_DIR/
 echo "-----> Building Racket snapshot"
 echo "     - Downloading prebuilt installer"
 
-wget $RACKET_SNAPSHOT --progress=bar:force -O $CACHE_DIR/racket-installer.sh
+wget $RACKET_SNAPSHOT --progress=bar:force -O $CACHE_DIR/racket-installer.sh |& indent
 chmod +x $CACHE_DIR/racket-installer.sh
 
 echo "-----> Unpacking Racket installation"
 
-$CACHE_DIR/racket-installer.sh --in-place --dest $RACKET_DIR
+$CACHE_DIR/racket-installer.sh --in-place --dest $RACKET_DIR |& indent
 
 PATH=$RACKET_DIR/bin:$PATH
 
@@ -38,5 +57,5 @@ echo 'export PATH=$PATH:$HOME/racket/bin' >> .profile.d/setup_environment.sh
 
 echo "-----> Installing application package"
 
-raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR
-raco setup -D
+raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR |& indent
+raco setup -D |& indent
