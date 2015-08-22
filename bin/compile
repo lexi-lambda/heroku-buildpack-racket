@@ -26,7 +26,25 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-RACKET_SNAPSHOT=http://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-precise.sh
+echo "-----> Detecting Racket version"
+
+RACKET_VERSION_PATH="$ENV_DIR/RACKET_VERSION"
+
+if [ ! -f "$RACKET_VERSION_PATH" ]; then
+  echo "     - ERROR: The RACKET_VERSION configuration variable does not appear to be set"
+  echo "     - Aborting..."
+  exit 1
+fi
+
+RACKET_VERSION=$(cat "$RACKET_VERSION_PATH")
+
+if [[ ${RACKET_VERSION,,} == 'current' || ${RACKET_VERSION,,} == 'head' ]]; then
+  echo "     - Using Racket development snapshot"
+  RACKET_INSTALLER='http://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-precise.sh'
+else
+  echo "     - Using Racket version $RACKET_VERSION"
+  RACKET_INSTALLER="http://mirror.racket-lang.org/installers/${RACKET_VERSION}/racket-${RACKET_VERSION}-x86_64-linux-ubuntu-precise.sh"
+fi
 
 APP_DIR=$BUILD_DIR/app
 RACKET_DIR=$BUILD_DIR/racket
@@ -38,19 +56,19 @@ echo "-----> Moving application into ‘app’ directory"
 mkdir -p $APP_DIR
 mv $BUILD_DIR/!(app|Procfile) $APP_DIR/
 
-echo "-----> Building Racket snapshot"
+echo "-----> Building Racket installation"
 echo "     - Downloading prebuilt installer"
 
-wget $RACKET_SNAPSHOT --progress=dot:giga -O $CACHE_DIR/racket-installer.sh |& indent
+wget $RACKET_INSTALLER --progress=dot:giga -O $CACHE_DIR/racket-installer.sh |& indent
 chmod +x $CACHE_DIR/racket-installer.sh
 
-echo "-----> Unpacking Racket installation"
+echo "     - Unpacking Racket installation"
 
 $CACHE_DIR/racket-installer.sh --in-place --dest $RACKET_DIR |& indent
 
-PATH=$RACKET_DIR/bin:$PATH
+export PATH=$RACKET_DIR/bin:$PATH
 
-echo "-----> Setting up .profile.d environment"
+echo "-----> Setting up environment"
 
 mkdir .profile.d
 echo 'export PATH=$PATH:$HOME/racket/bin' >> .profile.d/setup_environment.sh
