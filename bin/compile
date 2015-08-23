@@ -70,6 +70,7 @@ mv $BUILD_DIR/!(app|Procfile) $APP_DIR/
 echo "-----> Building Racket installation"
 echo "     - Downloading prebuilt installer"
 
+mkdir -p $CACHE_DIR
 wget $RACKET_INSTALLER --progress=dot:giga -O $CACHE_DIR/racket-installer.sh |& indent
 chmod +x $CACHE_DIR/racket-installer.sh
 
