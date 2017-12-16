@@ -45,7 +45,7 @@ if [[ "$RACKET_VERSION" =~ '-minimal'$ ]]; then
     RACKET_INSTALLER='http://www.cs.utah.edu/plt/snapshots/current/installers/min-racket-current-x86_64-linux-precise.sh'
   else
     echo "     - Using minimal Racket version $RACKET_VERSION"
-    if [[ "$RACKET_VERSION" = 6.[0-4]* ]]; then
+    if [[ "$RACKET_VERSION" =~ ^6.[0-4](\..+)?$ ]]; then
       RACKET_INSTALLER="http://mirror.racket-lang.org/installers/${RACKET_VERSION}/racket-minimal-${RACKET_VERSION}-x86_64-linux-ubuntu-precise.sh"
     else
       RACKET_INSTALLER="http://mirror.racket-lang.org/installers/${RACKET_VERSION}/racket-minimal-${RACKET_VERSION}-x86_64-linux.sh"
@@ -57,7 +57,7 @@ else
     RACKET_INSTALLER='http://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-precise.sh'
   else
     echo "     - Using Racket version $RACKET_VERSION"
-    if [[ "$RACKET_VERSION" = 6.[0-4]* ]]; then
+    if [[ "$RACKET_VERSION" =~ ^6.[0-4](\..+)?$ ]]; then
       RACKET_INSTALLER="http://mirror.racket-lang.org/installers/${RACKET_VERSION}/racket-${RACKET_VERSION}-x86_64-linux-ubuntu-precise.sh"
     else
       RACKET_INSTALLER="http://mirror.racket-lang.org/installers/${RACKET_VERSION}/racket-${RACKET_VERSION}-x86_64-linux.sh"
