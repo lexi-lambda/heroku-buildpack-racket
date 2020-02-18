@@ -31,7 +31,7 @@ echo "-----> Detecting Racket version"
 RACKET_VERSION_PATH="$ENV_DIR/RACKET_VERSION"
 
 if [ ! -f "$RACKET_VERSION_PATH" ]; then
-  echo "     - ERROR: The RACKET_VERSION configuration variable does not appear to be set"
+  echo "     - ERROR: The RACKET_VERSION configuration variable does not appear to be set ($RACKET_VERSION_PATH)"
   echo "     - Aborting..."
   exit 1
 fi
