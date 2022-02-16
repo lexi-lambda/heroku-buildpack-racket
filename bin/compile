@@ -97,3 +97,13 @@ echo "-----> Installing application package"
 
 raco pkg install -i --no-setup --deps search-auto -n heroku-racket-app --copy $APP_DIR |& indent
 raco setup -DK --fail-fast |& indent
+
+RACKETSCRIPT_DIR=$APP_DIR/racks
+if [[ -d $RACKETSCRIPT_DIR ]]; then
+    JS_BUILD_DIR=$APP_DIR/js-build
+    mkdir -p $JS_BUILD_DIR
+    echo "-----> Compiling RacketScript files"
+    for file in $RACKETSCRIPT_DIR/*.rkt; do
+        racks --force-recompile --skip-arity-checks --build-dir $JS_BUILD_DIR $file |& indent
+    done
+fi
